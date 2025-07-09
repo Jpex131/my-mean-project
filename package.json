@@ -1,0 +1,31 @@
+{
+  "name": "my-mean-project",
+  "version": "1.0.0",
+  "description": "Express server ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jpex131/my-mean-project.git"
+  },
+  "author": "JP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jpex131/my-mean-project/issues"
+  },
+  "homepage": "https://github.com/Jpex131/my-mean-project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "moment": "^2.30.1",
+    "mongoose": "^8.16.2",
+    "underscore": "^1.13.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
