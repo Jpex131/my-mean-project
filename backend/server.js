@@ -12,6 +12,11 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Importar y usar las rutas de productos
+const productosRoutes = require('./routes/productos');
+app.use('/api/productos', productosRoutes);
+
+
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
