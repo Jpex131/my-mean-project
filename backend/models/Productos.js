@@ -9,6 +9,11 @@ const productoSchema = new Schema({
     precio: {
         type: Number,
         required: true,
+    },
+    imagen: {
+        type: String,
+        required: false,
+        default: 'https://via.placeholder.com/150'
     }
 });
 

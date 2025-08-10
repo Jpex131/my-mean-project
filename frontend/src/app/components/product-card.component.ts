@@ -48,13 +48,21 @@ import { Producto } from '../productos.service';
   `,
   styles: [`
     .product-card {
+      width: 300px;
+      height: 240px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 0 0 auto;
+      
       background: white;
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       padding: 20px;
       margin: 10px;
       transition: all 0.3s ease;
-      border: 1px solid #e0e0e0;
+      border: 1px solid #80b68dff;
       max-width: 300px;
     }
 

@@ -145,10 +145,11 @@ import { ProductosService, Producto } from '../productos.service';
     }
 
     .products-grid {
-      display: grid;
+      display: flex;
+      flex-direction: row;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
-      justify-items: center;
+      justify-items: flex-start;
     }
 
     .mensaje {

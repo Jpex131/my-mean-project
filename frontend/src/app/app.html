@@ -122,25 +122,7 @@
     background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
   }
 
-  .pill-group .pill:nth-child(6n + 1) {
-    --pill-accent: var(--bright-blue);
-  }
-  .pill-group .pill:nth-child(6n + 2) {
-    --pill-accent: var(--electric-violet);
-  }
-  .pill-group .pill:nth-child(6n + 3) {
-    --pill-accent: var(--french-violet);
-  }
 
-  .pill-group .pill:nth-child(6n + 4),
-  .pill-group .pill:nth-child(6n + 5),
-  .pill-group .pill:nth-child(6n + 6) {
-    --pill-accent: var(--hot-red);
-  }
-
-  .pill-group svg {
-    margin-inline-start: 0.25rem;
-  }
 
   .social-links {
     display: flex;
@@ -149,14 +131,7 @@
     margin-top: 1.5rem;
   }
 
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
 
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
-  }
 
   @media screen and (max-width: 650px) {
     .content {
@@ -164,22 +139,13 @@
       width: max-content;
     }
 
-    .divider {
-      height: 1px;
-      width: 100%;
-      background: var(--red-to-pink-to-purple-horizontal-gradient);
-      margin-block: 1.5rem;
-    }
+
   }
 </style>
 
 <main class="main">
-  <div class="content">    
-    <div class="left-side">   
-      <app-productos-list></app-productos-list>                      
-    </div>
-    <div class="right-side">                                    
-    </div>
+  <div class="content">        
+    <app-productos-list></app-productos-list>                              
   </div>
 </main>
 
