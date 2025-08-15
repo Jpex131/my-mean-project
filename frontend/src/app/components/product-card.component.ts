@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Producto } from '../productos.service';
+import { Producto } from '../services/productos.service';
 
 @Component({
   selector: 'app-product-card',
@@ -8,6 +8,23 @@ import { Producto } from '../productos.service';
   imports: [CommonModule],
   template: `
     <div class="product-card">
+      <!-- Imagen del producto -->
+      <div class="product-image" *ngIf="producto.imagen">
+        <img 
+          [src]="producto.imagen" 
+          [alt]="producto.nombre"
+          (error)="onImageError($event)"
+          class="product-img">
+      </div>
+      
+      <!-- Placeholder si no hay imagen -->
+      <div class="product-image-placeholder" *ngIf="!producto.imagen || imageError">
+        <div class="placeholder-content">
+          <span class="placeholder-icon">📦</span>
+          <span class="placeholder-text">Sin imagen</span>
+        </div>
+      </div>
+
       <div class="product-header">
         <h3 class="product-name">{{ producto.nombre }}</h3>
         <div class="product-actions">
@@ -49,21 +66,21 @@ import { Producto } from '../productos.service';
   styles: [`
     .product-card {
       width: 300px;
-      height: 240px;
+      height: 380px; /* Aumentamos la altura para la imagen */
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       flex: 0 0 auto;
       
       background: white;
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      padding: 15px;
       margin: 10px;
       transition: all 0.3s ease;
       border: 1px solid #80b68dff;
       max-width: 300px;
+      overflow: hidden;
     }
 
     .product-card:hover {
@@ -71,20 +88,71 @@ import { Producto } from '../productos.service';
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
+    /* Estilos para la imagen */
+    .product-image {
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      background: #f8f9fa;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Placeholder para cuando no hay imagen */
+    .product-image-placeholder {
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      border: 2px dashed #dee2e6;
+    }
+
+    .placeholder-content {
+      text-align: center;
+      color: #6c757d;
+    }
+
+    .placeholder-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .placeholder-text {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
     .product-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .product-name {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: #333;
       margin: 0;
       flex: 1;
       margin-right: 10px;
+      line-height: 1.3;
     }
 
     .product-actions {
@@ -111,34 +179,36 @@ import { Producto } from '../productos.service';
     }
 
     .product-body {
-      margin-bottom: 20px;
+      flex: 1;
+      margin-bottom: 15px;
     }
 
     .price-container {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .currency {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #666;
       margin-right: 2px;
     }
 
     .price {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: #2c5aa0;
     }
 
     .product-id {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #888;
       font-family: monospace;
     }
 
     .product-footer {
       border-top: 1px solid #f0f0f0;
-      padding-top: 15px;
+      padding-top: 12px;
+      margin-top: auto;
     }
 
     .btn-primary {
@@ -146,12 +216,12 @@ import { Producto } from '../productos.service';
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 10px 16px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .btn-primary:hover {
@@ -162,6 +232,18 @@ import { Producto } from '../productos.service';
     .btn-primary:active {
       transform: translateY(0);
     }
+
+    @media (max-width: 768px) {
+      .product-card {
+        width: 280px;
+        height: 360px;
+      }
+      
+      .product-image,
+      .product-image-placeholder {
+        height: 120px;
+      }
+    }
   `]
 })
 export class ProductCardComponent {
@@ -169,6 +251,8 @@ export class ProductCardComponent {
   @Output() edit = new EventEmitter<Producto>();
   @Output() delete = new EventEmitter<string>();
   @Output() addToCart = new EventEmitter<Producto>();
+
+  imageError = false;
 
   onEdit() {
     this.edit.emit(this.producto);
@@ -182,5 +266,10 @@ export class ProductCardComponent {
 
   onAddToCart() {
     this.addToCart.emit(this.producto);
+  }
+
+  onImageError(event: any) {
+    console.warn('Error cargando imagen:', this.producto.imagen || 'No definida');
+    this.imageError = true;
   }
 }

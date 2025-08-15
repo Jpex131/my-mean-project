@@ -24,7 +24,7 @@ import { ProductosService, Producto } from '../productos.service';
 
       <!-- Error State -->
       <div *ngIf="error" class="error">
-        <p>❌ Error al cargar productos: {{ error }}</p>
+        <p>⚠ Error al cargar productos: {{ error }}</p>
         <button class="btn-retry" (click)="cargarProductos()">
           Reintentar
         </button>
@@ -145,11 +145,11 @@ import { ProductosService, Producto } from '../productos.service';
     }
 
     .products-grid {
-      display: flex;
-      flex-direction: row;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 20px;
-      justify-items: flex-start;
+      justify-items: center;
+      padding: 20px 0;
     }
 
     .mensaje {
@@ -185,12 +185,19 @@ import { ProductosService, Producto } from '../productos.service';
 
     @media (max-width: 768px) {
       .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 15px;
       }
       
       .page-header h1 {
         font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
       }
     }
   `]

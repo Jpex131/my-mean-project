@@ -1,4 +1,40 @@
 const Producto = require('../models/Productos');
+const multer = require('multer');
+const path = require('path');
+
+// Configuracion e Multer para Upload de imagenes
+const storage =multer.diskStorage({
+    destinatioon: (req, file, cd) => {
+        cd(null, './uploads/');
+    },
+    filename: (req, file, cd) => {
+        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+        cd(null, uniqueName);
+    }
+});
+
+// Filtro para solo permitir imagenes
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (mimetype && extname){
+        return cb(null, true);    
+    } else {
+        cd(new Error('Solo se permiten archivos de imagen (jpeg, jpg, png, gif)'));
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 *1024, // limite de 5MB
+    },
+    fileFilter: fileFilter
+});
+
+// Middalware pde upload (exportamos para usar en las rutas)
+const uploadMiddleware = upload.single('imagen');
 
 // Obtener todos los productos
 const obtenerProductos = async (req, res) => {
@@ -29,9 +65,18 @@ const obtenerProductoPorId = async (req, res) => {
 const crearProducto = async (req, res) => {
     try {
         const { nombre, precio } = req.body;        
+
+        // URL de laimagen (si se subio una)
+        let imagenUrl = null;
+        if(req.file){
+            imagenUrl = `$req.protocol}://${req.get('host')}/uploads/${req.file.filenam}`;
+        }
+
+        
         const nuevoProducto = new Producto({
             nombre,
-            precio
+            precio,
+            imagen: imagenUrl
         });
         const productoGuardado = await nuevoProducto.save();
         res.status(201).json(productoGuardado);
@@ -76,5 +121,6 @@ module.exports = {
     obtenerProductoPorId,
     crearProducto,
     actualizarProducto,
-    eliminarProducto
+    eliminarProducto,
+    uploadMiddleware
 };

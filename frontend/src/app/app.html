@@ -1,4 +1,3 @@
-
 <style>
   :host {
     --bright-blue: oklch(51.01% 0.274 263.83);
@@ -122,8 +121,6 @@
     background: color-mix(in srgb, var(--pill-accent) 15%, transparent);
   }
 
-
-
   .social-links {
     display: flex;
     align-items: center;
@@ -131,21 +128,41 @@
     margin-top: 1.5rem;
   }
 
+  /* Nuevo estilo para el botón de crear producto */
+  .create-product-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+  }
 
+  .create-product-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
 
   @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;
       width: max-content;
     }
-
-
   }
 </style>
 
 <main class="main">
-  <div class="content">        
-    <app-productos-list></app-productos-list>                              
+  <div class="content">   
+    <!-- Botón para abrir el modal de crear producto -->
+    <button class="create-product-btn" (click)="createProductModal.openModal()">
+      + Crear Nuevo Producto
+    </button>
+     
+    <app-productos-list></app-productos-list>
+    <app-create-product #createProductModal></app-create-product>
   </div>
 </main>
 
